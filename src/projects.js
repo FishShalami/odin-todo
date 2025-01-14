@@ -1,3 +1,5 @@
+import createTodo from "./todo";
+
 function createProject(n) {
 
     const contentContainer = document.querySelector('#content');
@@ -18,10 +20,21 @@ function createProject(n) {
         // Logic to navigate to a new page
     });
 
+    const addTodoBtn = document.createElement('button');
+    addTodoBtn.id = `proj${n}-addTodoBtn`
+    addTodoBtn.textContent = '+'
+
+    addTodoBtn.addEventListener('click', function() {
+        console.log(`Click of ${addTodoBtn.id}`);
+        createTodo(projContainer.id)
+        // Logic to navigate to a new page
+    });
+
     const projDescribe = document.createElement('p');
     projDescribe.textContent = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit sequi corporis unde eos id ullam quos officia ex sunt sit, necessitatibus soluta nihil temporibus deleniti facere, impedit eligendi tempora error?"
 
     projContainer.appendChild(projTitle);
+    projContainer.appendChild(addTodoBtn);
     projContainer.appendChild(projDescribe);
     contentContainer.appendChild(projContainer)
     
