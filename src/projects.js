@@ -1,8 +1,10 @@
-import createTodo from "./todo";
+import projectsArray from "./data";
+import { showTodoForm } from "./todoPopup";
 
 function createProject(n) {
-
+    const projectId = `proj${n}`;
     const contentContainer = document.querySelector('#content');
+    
     if (!contentContainer) {
         console.error('Error: No element with ID "content" found in the DOM.');
         return;
@@ -10,24 +12,19 @@ function createProject(n) {
 
     const projContainer = document.createElement('div');
     projContainer.className = `projContainer`
-    projContainer.id = `proj${n}`
+    projContainer.id = projectId
     
     const projTitle = document.createElement('h2');
     projTitle.textContent = `Project ${n}`;
 
-    projTitle.addEventListener('click', function() {
-        console.log(`Navigating to project ${n}`);
-        // Logic to navigate to a new page
-    });
-
     const addTodoBtn = document.createElement('button');
     addTodoBtn.id = `proj${n}-addTodoBtn`
-    addTodoBtn.textContent = '+'
+    addTodoBtn.textContent = 'Add To-do'
 
     addTodoBtn.addEventListener('click', function() {
         console.log(`Click of ${addTodoBtn.id}`);
-        createTodo(projContainer.id)
-        // Logic to navigate to a new page
+        console.log(`Click of ${projContainer.id}`);
+        showTodoForm(projContainer.id);
     });
 
     const projDescribe = document.createElement('p');
@@ -37,6 +34,22 @@ function createProject(n) {
     projContainer.appendChild(addTodoBtn);
     projContainer.appendChild(projDescribe);
     contentContainer.appendChild(projContainer)
+    
+    // console.log(`project id is ${projectId}`);
+
+    console.log("Looking for projectId in projectsArray:", projectId, projectsArray);
+
+
+    const existing = projectsArray.find((p) => p.id === projectId);
+    if (!existing) {
+        const newProjectObj = {
+            id: projectId,
+            name: `Project ${n}`,
+            todos: []
+        };
+        projectsArray.push(newProjectObj);
+        console.log(`Created new project in data store:`, newProjectObj);
+    }
     
 
     return contentContainer

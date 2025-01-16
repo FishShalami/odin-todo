@@ -1,0 +1,35 @@
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* container for the modal form */
+.modal-container {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    min-width: 300px;
+}
+
+/* small styling for the form itself */
+.todo-form label {
+    display: block;
+    margin-top: 0.5rem;
+}
+.todo-form input,
+.todo-form textarea,
+.todo-form select {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+.todo-form button {
+    margin-right: 0.5rem;
+}
