@@ -6,3 +6,17 @@
     padding-left: 20px;
     background-color: rgb(175, 218, 255);
 }
+
+.collapsed p,
+.collapsed .edit-btn {
+    display: none;
+  }
+
+.collapsed {
+    margin: 20px;
+    border-radius: 20px;
+    border: 2px black solid;
+    box-shadow: 5px 5px 5px grey;
+    padding-left: 20px;
+    background-color: rgb(101, 102, 104);
+}

@@ -3,7 +3,7 @@ import projectsArray from './data.js';
 import './todoPopupStyle.css'
 
 
-export function showTodoForm(projectId) {
+ function showTodoForm(projectId, existingTodo = null) {
      // Create a div that will act as a backdrop for the pop-up
      const modalBackdrop = document.createElement('div');
      modalBackdrop.classList.add('modal-backdrop');
@@ -60,6 +60,16 @@ export function showTodoForm(projectId) {
     cancelBtn.type = 'button';
     cancelBtn.textContent = 'Cancel';
 
+    if (existingTodo) {
+        titleInput.value = existingTodo.title,
+        descInput.value = existingTodo.description;
+        dateInput.value = existingTodo.dueDate;
+        prioritySelect.value = existingTodo.priority;
+        submitBtn.textContent = 'Save Changes'; // Make button text more explicit
+    } else {
+        submitBtn.textContent = 'Add To-do';
+    }
+
     // Append all form elements
     form.appendChild(titleLabel);
     form.appendChild(titleInput);
@@ -91,22 +101,43 @@ export function showTodoForm(projectId) {
         const priority = prioritySelect.value;
         
 
-    //create todo object:
-    const newTodo = createTodo({ title, description, dueDate, priority });
 
     const projectObj = projectsArray.find((proj) => proj.id === projectId);
     if (!projectObj) {
         console.error(`Project with ID ${projectId} not found in data array!`);
         return;
     }
-    
+
+    if (existingTodo) {
+        existingTodo.title = title;
+        existingTodo.description = description;
+        existingTodo.dueDate = dueDate;
+        existingTodo.priority = priority;
+
+        const todoContainer = document.querySelector(
+            `#${projectId} [data-todo-id="${existingTodo.todoId}"]`
+          );
+          if (todoContainer) {
+            todoContainer.remove(); 
+          }
+          // Re-create and append fresh DOM for the updated to-do:
+          createTodoElement(projectId, existingTodo);
+    } else {
+    //create todo object:
+    const newTodo = createTodo({ title, description, dueDate, priority });
     projectObj.todos.push(newTodo);
+    createTodoElement(projectId, newTodo);
+    }
+    
     console.log(projectsArray);
 
-    //render todo  in project
-    createTodoElement(projectId, newTodo);
 
     // Remove the modal after submission
     document.body.removeChild(modalBackdrop);
     });
 }
+
+
+
+
+export  { showTodoForm }; 

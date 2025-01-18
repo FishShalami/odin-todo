@@ -1,9 +1,10 @@
 import projectsArray from './data';
+import { showTodoForm } from './todoPopup';
 import './todoStyle.css'
 
-function createTodoElement(project, todoData) {
+function createTodoElement(projectId, todoData) {
 
-    const projectSelector = `#${project}`;
+    const projectSelector = `#${projectId}`;
     const projectDiv = document.querySelector(projectSelector);
 
     if (!projectDiv) {
@@ -13,7 +14,9 @@ function createTodoElement(project, todoData) {
 
 
     const todoContainer = document.createElement('div')
-    todoContainer.className = `${project}-todoContainer`
+    todoContainer.className = `${projectId}-todoContainer`
+    // Add a data attribute for easy lookup on re-renders
+    todoContainer.setAttribute('data-todo-id', todoData.todoId);
     
     const todoTitle = document.createElement('h3');
     todoTitle.textContent = todoData.title || 'To-Do';
@@ -34,6 +37,7 @@ function createTodoElement(project, todoData) {
     todoDeleteBtn.textContent = 'Delete';
     const todoEditBtn = document.createElement('button');
     todoEditBtn.textContent = 'Edit';
+    todoEditBtn.className = 'edit-btn'
 
     //Checkbox for complete
     const todoCompleteLabel = document.createElement('label')
@@ -44,7 +48,7 @@ function createTodoElement(project, todoData) {
 
     // delete event listener
     todoDeleteBtn.addEventListener('click', () => {
-        const projectObj = projectsArray.find(proj => proj.id === project.id);
+        const projectObj = projectsArray.find(proj => proj.id === projectId);
         if(projectObj) {
             const index = projectObj.todos.indexOf(todoData);
             if (index > -1) {
@@ -58,25 +62,33 @@ function createTodoElement(project, todoData) {
     //edit event listener
     todoEditBtn.addEventListener('click', () => {
         console.log('The edit button on', todoData);
+        showTodoForm(projectId, todoData);
     });
 
     todoCompleteInput.addEventListener('change', (e) => {
-        todoData.status==='incomplete' ? todoData.status = 'complete' : todoData.status = 'incomplete' 
+        
+        if (todoData.status==='incomplete') {
+            todoData.status = 'complete';
+            todoContainer.classList.add('collapsed');
+        } else {
+            todoData.status = 'incomplete'
+            todoContainer.classList.remove('collapsed');
+        }
         console.log('Checkbox changed for', todoData);
     })
 
     //Append
-    todoContainer.appendChild(todoTitle);
-    todoContainer.appendChild(todoDesc);
-    todoContainer.appendChild(todoDate);
-    todoContainer.appendChild(todoPriority);
-    todoContainer.appendChild(todoDeleteBtn);
-    todoContainer.appendChild(todoEditBtn);
-    todoContainer.appendChild(todoCompleteLabel)
-    todoContainer.appendChild(todoCompleteInput)
 
-    projectDiv.appendChild(todoContainer)
-    
+        todoContainer.appendChild(todoTitle);
+        todoContainer.appendChild(todoDesc);
+        todoContainer.appendChild(todoDate);
+        todoContainer.appendChild(todoPriority);
+        todoContainer.appendChild(todoDeleteBtn);
+        todoContainer.appendChild(todoEditBtn);
+        todoContainer.appendChild(todoCompleteLabel)
+        todoContainer.appendChild(todoCompleteInput)
+
+        projectDiv.appendChild(todoContainer)
 
     return todoContainer
 }
@@ -97,16 +109,7 @@ function createTodo({ title, description, dueDate, priority }) {
 }
 
 
-function deleteTodo({ title, description, dueDate, priority }) {
-    delete {
-        title: title,
-        description: description,
-        dueDate: dueDate,
-        priority: priority
-    };
-
-}
-
 
 export { createTodoElement, createTodo };
+
 
