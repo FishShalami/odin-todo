@@ -65,14 +65,24 @@ function createTodoElement(projectId, todoData) {
         showTodoForm(projectId, todoData);
     });
 
+    if (todoData.status === 'complete') {
+        todoCompleteInput.checked = true;
+        todoContainer.classList.add('collapsed');
+      } else {
+        todoCompleteInput.checked = false;
+        todoContainer.classList.remove('collapsed');
+      }
+
     todoCompleteInput.addEventListener('change', (e) => {
         
         if (todoData.status==='incomplete') {
             todoData.status = 'complete';
             todoContainer.classList.add('collapsed');
+            todoCompleteInput.checked = true;
         } else {
             todoData.status = 'incomplete'
             todoContainer.classList.remove('collapsed');
+            todoCompleteInput.checked = false;
         }
         console.log('Checkbox changed for', todoData);
     })

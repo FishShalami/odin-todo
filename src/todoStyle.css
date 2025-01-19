@@ -5,6 +5,7 @@
     box-shadow: 5px 5px 5px grey;
     padding-left: 20px;
     background-color: rgb(175, 218, 255);
+    padding-bottom: 10px;
 }
 
 .collapsed p,
@@ -18,5 +19,6 @@
     border: 2px black solid;
     box-shadow: 5px 5px 5px grey;
     padding-left: 20px;
+    padding-bottom: 10px;
     background-color: rgb(101, 102, 104);
 }

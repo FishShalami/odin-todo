@@ -1,5 +1,8 @@
 import projectsArray from "./data";
 import { showTodoForm } from "./todoPopup";
+import { showProjectForm } from "./projectPopup";
+import { createTodoElement } from "./todo";
+import './projectStyle.css'
 
 function createProjectElement(projData) {
     // const projIndex = projectsArray.indexOf(projData.title)
@@ -45,21 +48,28 @@ function createProjectElement(projData) {
     projContainer.appendChild(editProjectBtn);
     contentContainer.appendChild(projContainer)
     
+    
     // console.log(`project id is ${projectId}`);
 
     // console.log("Looking for projectId in projectsArray:", projectId, projectsArray);
 
 
-    const existing = projectsArray.find((p) => p.id === projData.id);
-    if (!existing) {
+    const existingProject = projectsArray.find((p) => p.id === projData.id);
+    if (existingProject && existingProject.todos) {
+        existingProject.todos.forEach((todoItem) => {
+            createTodoElement(existingProject.id, todoItem);
+        });
+    } else if (!existingProject) {
+        // If the project doesn’t exist in the array yet, create it
         const newProjectObj = {
             id: projData.id,
-            name: `Project ${projData.id}`,
+            title: projData.title,
+            description: projData.description,
             todos: []
         };
         projectsArray.push(newProjectObj);
-        console.log(`Created new project in data store:`, newProjectObj);
     }
+    
     
 
     return contentContainer
