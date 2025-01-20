@@ -1,4 +1,5 @@
 import projectsArray from './data';
+import { saveData } from './storage';
 import { showTodoForm } from './todoPopup';
 import './todoStyle.css'
 import { differenceInDays, format } from "date-fns";
@@ -78,8 +79,9 @@ function createTodoElement(projectId, todoData) {
                 projectObj.todos.splice(index, 1);
             }
         }
-        todoContainer.remove()
-        console.log('Delete clicked for', todoData)
+        saveData(projectsArray);
+        todoContainer.remove();
+        console.log('Delete clicked for', todoData);
     });
 
     //edit event listener
@@ -107,6 +109,7 @@ function createTodoElement(projectId, todoData) {
             todoContainer.classList.remove('collapsed');
             todoCompleteInput.checked = false;
         }
+        saveData(projectsArray);
         console.log('Checkbox changed for', todoData);
     })
 
