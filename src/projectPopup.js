@@ -73,12 +73,6 @@ function showProjectForm(existingProject = null) {
        const description = descInput.value.trim();
     
 
-    // const projectObj = projectsArray.find((proj) => proj.id === projectId);
-//    if (!projectObj) {
-//        console.error(`Project with ID ${projectId} not found in data array!`);
-//        return;
-//    }
-
    if (existingProject) {
         existingProject.title = title;
         existingProject.description = description;

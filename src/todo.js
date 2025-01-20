@@ -1,6 +1,9 @@
 import projectsArray from './data';
 import { showTodoForm } from './todoPopup';
 import './todoStyle.css'
+import { differenceInDays, format } from "date-fns";
+
+
 
 function createTodoElement(projectId, todoData) {
 
@@ -24,9 +27,29 @@ function createTodoElement(projectId, todoData) {
     const todoDesc = document.createElement('p');
     todoDesc.textContent = todoData.description || "Missing description"
 
-    // Due date
+    // Due date and days remaining
     const todoDate = document.createElement('p');
-    todoDate.textContent = `Due: ${todoData.dueDate || 'No date set'}`;
+    const todoDaysRemaining = document.createElement('p');
+
+    if (todoData.dueDate) {
+    const dueDate = new Date(todoData.dueDate); // Convert to a Date object
+    if (!isNaN(dueDate)) { // Check if the date is valid
+        todoDate.textContent = `Due: ${format(dueDate, 'MMM d, yyyy')}`;
+        const todayDate = new Date();
+        const dateDiff = differenceInDays(dueDate, todayDate);
+        todoDaysRemaining.textContent = `Days remaining: ${dateDiff}`;
+    } else {
+        todoDate.textContent = 'Invalid date set';
+        todoDaysRemaining.textContent = 'Days remaining: Invalid date';
+    }
+    } else {
+    todoDate.textContent = 'No date set';
+    todoDaysRemaining.textContent = 'Days remaining: No date set';
+    }
+    //Days remaining
+    // const todayDate = new Date();
+    // const dateDiff = differenceInDays(todoData.dueDate, todayDate) || 'Enter date!'
+    // todoDaysRemaining.textContent = `Days remaining: ${dateDiff}`
 
     // Priority
     const todoPriority = document.createElement('p');
@@ -92,6 +115,7 @@ function createTodoElement(projectId, todoData) {
         todoContainer.appendChild(todoTitle);
         todoContainer.appendChild(todoDesc);
         todoContainer.appendChild(todoDate);
+        todoContainer.appendChild(todoDaysRemaining);
         todoContainer.appendChild(todoPriority);
         todoContainer.appendChild(todoDeleteBtn);
         todoContainer.appendChild(todoEditBtn);

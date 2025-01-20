@@ -20,5 +20,6 @@
     box-shadow: 5px 5px 5px grey;
     padding-left: 20px;
     padding-bottom: 10px;
-    background-color: rgb(101, 102, 104);
+    background: linear-gradient(rgb(101, 102, 104), rgb(175, 218, 255));
+
 }

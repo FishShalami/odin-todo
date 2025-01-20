@@ -5,8 +5,6 @@ import { createTodoElement } from "./todo";
 import './projectStyle.css'
 
 function createProjectElement(projData) {
-    // const projIndex = projectsArray.indexOf(projData.title)
-    // const projectId = `proj${projIndex}`;
     const contentContainer = document.querySelector('#content');
     
     if (!contentContainer) {
@@ -38,7 +36,6 @@ function createProjectElement(projData) {
     const editProjectBtn = document.createElement('button');
     editProjectBtn.textContent = 'Edit Project';
     editProjectBtn.addEventListener('click', () => {
-        // showProjectForm with existingProject
         showProjectForm(projData);
     });
 
